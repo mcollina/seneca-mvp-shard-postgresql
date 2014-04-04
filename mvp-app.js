@@ -20,7 +20,11 @@ process.on('uncaughtException', function(err) {
 seneca.use('options','options.mine.js')
 
 
-seneca.use('mem-store',{web:{dump:true}})
+seneca.use('postgresql-store', {
+  name:'noshard',
+  host:'127.0.0.1',
+  port:5432
+})
 
 seneca.use('user',{confirm:true})
 seneca.use('mail')
@@ -41,8 +45,10 @@ seneca.ready(function(err){
   var projectpin = seneca.pin({role:'project',cmd:'*'})
 
   u.register({nick:'u1',name:'nu1',email:'u1@example.com',password:'u1',active:true}, function(err,out){
-    projectpin.save( {account:out.user.accounts[0],name:'p1'} )
-    seneca.act('role:settings, cmd:save, kind:user, settings:{a:"aaa"}, ref:"'+out.user.id+'"')
+    if (out.ok) {
+      projectpin.save( {account:out.user.accounts[0],name:'p1'} )
+      seneca.act('role:settings, cmd:save, kind:user, settings:{a:"aaa"}, ref:"'+out.user.id+'"')
+    }
   })
   u.register({nick:'u2',name:'nu2',email:'u2@example.com',password:'u2',active:true})
   u.register({nick:'a1',name:'na1',email:'a1@example.com',password:'a1',active:true,admin:true})
