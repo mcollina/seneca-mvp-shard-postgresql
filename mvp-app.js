@@ -20,10 +20,41 @@ process.on('uncaughtException', function(err) {
 seneca.use('options','options.mine.js')
 
 
+//seneca.use('postgresql-store', {
+//  name:'noshard',
+//  host:'127.0.0.1',
+//  port:5432
+//})
+
 seneca.use('postgresql-store', {
-  name:'noshard',
+  map: {
+    'shard1/-/-': '*'
+  },
+  name:'shard1',
   host:'127.0.0.1',
   port:5432
+})
+
+seneca.use('postgresql-store', {
+  map: {
+    'shard2/-/-': '*'
+  },
+  name:'shard2',
+  host:'127.0.0.1',
+  port:5432
+})
+
+seneca.use('shard-store',{
+  shards: {
+    1: {
+      zone: 'shard1',
+      append: true
+    },
+    2: {
+      zone: 'shard2',
+      append: true
+    }
+  }
 })
 
 seneca.use('user',{confirm:true})

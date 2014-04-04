@@ -13,18 +13,18 @@ SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
-DROP DATABASE noshard;
+DROP DATABASE shard2;
 --
 -- TOC entry 2240 (class 1262 OID 16393)
--- Name: noshard; Type: DATABASE; Schema: -; Owner: postgres
+-- Name: shard2; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE noshard WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C' LC_CTYPE = 'C';
+CREATE DATABASE shard2 WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C' LC_CTYPE = 'C';
 
 
-ALTER DATABASE noshard OWNER TO postgres;
+ALTER DATABASE shard2 OWNER TO postgres;
 
-\connect noshard
+\connect shard2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
